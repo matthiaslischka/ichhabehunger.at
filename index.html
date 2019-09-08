@@ -1,17 +1,93 @@
-<!DOCTYPE html>
-<html lang="de">
-	<head>
-		<meta charset="utf-8">
-		<title>ichhabehunger.at</title>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37678138-2"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() { dataLayer.push(arguments); }
-			gtag('js', new Date());
-			gtag('config', 'UA-37678138-2');
-		</script>
-		<meta http-equiv="refresh" content="0; URL='http://www.mjam.at'" />
-	</head>
-	<body>
-	</body>
-</html>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37678138-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-37678138-2');
+</script>
+
+<style>
+    body {
+        margin: 0px;
+    }
+    
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    
+    .arrow {
+        width: 35px;
+        display: inline-block;
+        margin: 20px;
+    }
+</style>
+
+<script src="https://npmcdn.com/vue/dist/vue.min.js"></script>
+
+<div id="app">
+
+    <container v-bind:youtubecode="getCurrent()">
+        <div v-on:click="goLeft" class="arrow">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-circle-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-chevron-circle-left fa-w-16 fa-3x">
+                <path fill="currentColor" d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zM142.1 273l135.5 135.5c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9L226.9 256l101.6-101.6c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L142.1 239c-9.4 9.4-9.4 24.6 0 34z" class=""></path>
+            </svg>
+        </div>
+        <div class="video">
+            <youtube v-bind:youtubecode="getCurrent()"></youtube>
+        </div>
+        <div v-on:click="goRight" class="arrow">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-circle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-chevron-circle-right fa-w-16 fa-2x">
+                <path fill="currentColor" d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm113.9 231L234.4 103.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L285.1 256 183.5 357.6c-9.4 9.4-9.4 24.6 0 33.9l17 17c9.4 9.4 24.6 9.4 33.9 0L369.9 273c9.4-9.4 9.4-24.6 0-34z" class=""></path>
+            </svg>
+        </div>
+    </container>
+</div>
+
+<script>
+    Vue.component('youtube', {
+        props: ['youtubecode'],
+        template: `<iframe width="560" height="315" :src="'https://www.youtube.com/embed/' + youtubecode" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+    })
+
+    Vue.component('container', {
+        props: ['youtubecode'],
+        template: `<div class="container" :style="'background: linear-gradient(#fffa, #fff0), url(http://i3.ytimg.com/vi/' + youtubecode + '/maxresdefault.jpg) no-repeat center center fixed;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;'">
+  <slot></slot>
+  </div>`
+    })
+
+    new Vue({
+        el: '#app',
+
+        data: {
+            index: 0,
+            links: ['yFznCbehkRo', '-iT0qRyWIyE', 'gEZcfjPIN0Y', '7k9I0nCI_2U', '4I0sjituOzM', 'cu-qiIiqHDQ', 'AN1WSU2g9dA', 'wH5DFk0xWO4', 'D_2DBLAt57c', 'iM_KMYulI_s', 'AmC9SmCBUj4', '5KLYz0pApq0', 'nKs5hNeCX-Q', 'Nb7f2KyWbOU', 'wv6xfTqnsCs', 'arJnLw0yCSY', 'dKXWejK3E0M', 'DHaMBCaSEPE', 'Hq2kmbI_1EA', 'CnECJbtDmR8', '59Ex_UQALhs', 'FtxzUVD3zvc', '75QLvYzYYrA', '6MarCaQ-CrQ', 'XKn2dwY1EI0', '3zqoImmhVk4', 'v9a0Rj5h4X0', 'N-2dZMPpO-A', 'roonbalq2Dg', 'U4bfazOMTH8', 'IEw5yepdW3Y', 'zSHlkvRGD0E', 'nXGybwYoVm8']
+        },
+        methods: {
+            goLeft: function() {
+                this.index--;
+                if (this.index < 0)
+                    this.index = this.links.length - 1;
+            },
+            goRight: function() {
+                this.index++;
+                if (this.index > this.links.length - 1)
+                    this.index = 0;
+            },
+            getCurrent: function() {
+                return this.links[this.index];
+            }
+        },
+		beforeMount(){
+		this.links = this.links.sort(() => Math.random() - 0.5);
+		}
+    })
+</script>
